@@ -21,44 +21,45 @@
             <!-- Facility Type -->
             <h3>Facility type</h3>
             <p>What kind of facility do you operate?</p>
-            <input type="radio" class="radio" name="facility" id="hotel">
+            <input type="radio" class="radio" name="facility" id="hotel" value="hotel">
             <label for="hotel">Hotel</label><br>
-            <input type="radio" class="radio" name="facility" id="mall">
+            <input type="radio" class="radio" name="facility" id="mall" value="mall">
             <label for="mall">Mall</label><br>
-            <input type="radio" class="radio" name="facility" id="office">
+            <input type="radio" class="radio" name="facility" id="office" value="office">
             <label for="office">Commercial Office</label><br>
-            <input type="radio" class="radio" name="facility" id="other">
+            <input type="radio" class="radio" name="facility" id="other" value="other">
             <label for="other">Other</label><br>
 
             <!-- Cooling Towers -->
             <h3>Cooling Towers</h3>
             <p>Does your facility have cooling towers?</p>
-            <input type="radio" class="radio" name="towers" id="yes">
+            <input type="radio" class="radio" name="towers" id="yes" value="yes">
             <label for="yes">Yes</label><br>
-            <input type="radio" class="radio" name="towers" id="no">
+            <input type="radio" class="radio" name="towers" id="no" value="no">
             <label for="no">No</label><br>
 
             <!-- Chiller Capacity -->
             <h3>Chiller capacity</h3>
             <p>Please input each chiller’s rated capacity in kW or RT. The rated capacity is on the chiller nameplate.</p>
             <label for="chiller-1">Chiller 1</label><br>
-            <input type="number" class="input-field" id="chiller-1" placeholder="Input number in KW" value="0" required><br>
+            <input type="number" class="input-field" id="chiller-1" name="chiller-1" placeholder="Input number in KW" value="0" required><br>
             <label for="chiller-2">Chiller 2</label><br>
-            <input type="number" class="input-field" id="chiller-2" placeholder="Input number in KW" value="0"><br>
+            <input type="number" class="input-field" id="chiller-2" name="chiller-2"placeholder="Input number in KW" value="0"><br>
             <label for="chiller-3">Chiller 3</label><br>
-            <input type="number" class="input-field" id="chiller-3" placeholder="Input number in KW" value="0"><br>
+            <input type="number" class="input-field" id="chiller-3" name="chiller-3" placeholder="Input number in KW" value="0"><br>
             <label for="chiller-4">Chiller 4</label><br>
-            <input type="number" class="input-field" id="chiller-4" placeholder="Input number in KW" value="0"><br>
+            <input type="number" class="input-field" id="chiller-4" name="chiller-4" placeholder="Input number in KW" value="0"><br>
             <label for="chiller-4">Chiller 5</label><br>
-            <input type="number" class="input-field" id="chiller-5" placeholder="Input number in KW" value="0"><br>
+            <input type="number" class="input-field" id="chiller-5" name="chiller-5" placeholder="Input number in KW" value="0"><br>
+            
             <!-- Contact Info -->
             <h3>Contact Info</h3>
             <label for="name">Your name</label><br>
-            <input type="text" class="input-field" placeholder="Your name" id="name"><br>
+            <input type="text" class="input-field" placeholder="Your name" id="name" name="name"><br>
             <label for="email">What is your email?</label><br>
-            <input type="email" class="input-field" placeholder="Your email" id="email"><br>
+            <input type="email" class="input-field" placeholder="Your email" id="email" name="email"><br>
             <label for="country">Which country are you from?</label><br>
-            <input type="text" class="input-field" placeholder="Your country" id="country"><br>
+            <input type="text" class="input-field" placeholder="Your country" id="country" name="country"><br>
 
             <!-- Submit Button -->
             <button type="submit">Submit</button>
