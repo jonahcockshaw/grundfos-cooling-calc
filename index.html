@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grundfos Cooling Calculator</title>
+    <style>
+        body {
+            background-color: aliceblue;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Declare all fixed variables 
+        const bbpSavingTarget = 0.75;
+        const bbpMinimumSavingCost = 100000;
+        const baselineElectricPrice = NaN;
+        const baselineAverageChillerPlantLoad = 0.35;
+        const estimatedChillerCapacityLoss = 0.15;
+        const baselineCO2 = NaN;
+        const pumpDesignOverCapacity = 0.20;
+
+        // Get values from inputs
+            // Get Chiller Values
+        var chiller1Value = document.getElementById("chiller-1").value;
+        var chiller2Value = document.getElementById("chiller-2").value;
+        var chiller3Value = document.getElementById("chiller-3").value;
+        var chiller4Value = document.getElementById("chiller-4").value;
+        var chiller5Value = document.getElementById("chiller-5").value;
+        var allChillersValue = chiller1Value + chiller2Value + chiller3Value + chiller4Value + chiller5Value
+
+        // Filter out any value less than 1
+        function removeZeros() {
+            return value >= 1
+        }
+        
+        // Count Number of Chillers
+        var totalChillers = [chiller1Value, chiller2Value, chiller3Value, chiller4Value, chiller5Value].filter(removeZeros);
+
+        // Chiller 1 Calculations
+        const nominalCapacity = allChillersValue;
+        const nominalPower = nominalCapacity / 1.4;
+        const numOfChillers = totalChillers;
+        const chillerEfficiency = nominalPower / nominalCapacity;
+        const correctedCapacity = nominalCapacity * (1 - estimatedChillerCapacityLoss);
+        const correctedChillerEfficiency = nominalPower / chillerEfficiency;
+        const nominalTotalCapacity = nominalCapacity * numOfChillers;
+        const correctedTotalCapacity = correctedCapacity * numOfChillers;
+        const yearlyEnergyUsage = correctedTotalCapacity * correctedChillerEfficiency * 365 * 24 * baselineAverageChillerPlantLoad;
+
+        // Chillers Totals
+        const nominalCapacityOfAllChillers = (chiller1Value + chiller2Value + chiller3Value + chiller4Value + chiller5Value)
+
+
+        // Condenser pump(s) Calculations
+        const condenserPumpEfficiency = condenserNominalTotalPowerCorrectedToLoad / nominalTotalCapacity;
+        const condenserNominalTotalPower = (14.0148778886542 + 0.11630564 * nominalPower) * numOfChillers;
+        const condenserNominalTotalPowerCorrectedToLoad = condenserNominalTotalPower * (1 - pumpDesignOverCapacity);
+        const condenserPumpsYearlyEnergyUsage = condenserNominalTotalPowerCorrectedToLoad * 24 * 365 * baselineAverageChillerPlantLoad;
+
+        // Primary Pump(s) Calculations
+        const primaryPumpEfficiency = primaryNominalTotalPowerCorrectedToLoad / nominalTotalCapacity;
+        const primaryNominalTotalPower = (14.7360878094534 + 0.02728417 * nominalPower) * numOfChillers;
+        const primaryNominalTotalPowerCorrectedToLoad = primaryNominalTotalPower * (1 - pumpDesignOverCapacity);
+        const primaryPumpsYearlyEnergyUsage = primaryNominalTotalPowerCorrectedToLoad * 24 * 265 * baselineAverageChillerPlantLoad;
+
+        // Secondary Pump(s) Calculations
+        const secondaryPumpEfficiency = secondaryNominalTotalPowerCorrectedToLoad / nominalTotalCapacity;
+        const secondaryNominalTotalPower = (-28.8607474364754 + 0.26194674 * nominalPower) * numOfChillers;
+        const secondaryNominalTotalPowerCorrectedToLoad = secondaryNominalTotalPower * (1 - pumpDesignOverCapacity);
+        const secondaryPumpsYearlyEnergyUsage = secondaryNominalTotalPowerCorrectedToLoad * 24 * 365 * baselineAverageChillerPlantLoad;
+
+        // Cooling Tower(s) Calculations
+        const coolingTowerEfficiency = coolingTowerNominalTotalPower / nominalTotalCapacity;
+        const coolingTowerNominalTotalPower = (-4.64339871663608 + 0.06993997 * nominalPower) * numOfChillers;
+        const coolingTowerPumpsYearlyEnergyUsage = coolingTowerNominalTotalPower * 24 * 365 * baselineAverageChillerPlantLoad;
+
+        // Summary Calculations
+            // in kW
+        const totalElectricityConsumption = yearlyElectricityConsumption / (24 * 365);
+            // in kWh
+        const yearlyElectricityConsumption = yearlyEnergyUsage + condenserPumpsYearlyEnergyUsage + primaryPumpsYearlyEnergyUsage + secondaryPumpsYearlyEnergyUsage + coolingTowerPumpsYearlyEnergyUsage;
+            // No comment yet
+        const calculatedPlantBaselineEfficiency = ((correctedChillerEfficiency + condenserPumpEfficiency + primaryPumpEfficiency + secondaryPumpEfficiency + coolingTowerEfficiency) + (correctedChillerEfficiency + 0.16)) / 2;
+            // in kWh/year
+        const electricSavingPotentialKwh = (calculatedPlantBaselineEfficiency - bbpSavingTarget) * correctedTotalCapacity * 24 * 365 * baselineAverageChillerPlantLoad;
+            // in ton/year
+        const co2SavingPotential = electricSavingPotentialKwh * baselineCO2 / 1000;
+            // in usd/year
+        const electricSavingPotentialUsd = electricSavingPotentialKwh * baselineElectricPrice; 
+
+        // Calculate Outputs
+        function calculateCostSaving() {
+
+        }
+
+        function calculateElectricitySaving() {
+
+        }
+
+        function calculateCO2Saving() {
+
+        }
+
+        // Print Outputs
+        function printOutputs() {
+            document.getElementById("cost-save").innerHTML = electricSavingPotentialUsd;
+            document.getElementById("electric-save").innerHTML = electricSavingPotentialKwh;
+            document.getElementById("co2-save").innerHTML = co2SavingPotential;
+        }
+
+    </script>
+    <section class="calc-section">
+        <form>
+            <!-- Facility Type -->
+            <h3>Facility type</h3>
+            <p>What kind of facility do you operate?</p>
+            <input type="radio" class="radio" name="facility" id="hotel">
+            <label for="hotel">Hotel</label><br>
+            <input type="radio" class="radio" name="facility" id="mall">
+            <label for="mall">Mall</label><br>
+            <input type="radio" class="radio" name="facility" id="office">
+            <label for="office">Commercial Office</label><br>
+            <input type="radio" class="radio" name="facility" id="other">
+            <label for="other">Other</label><br>
+
+            <!-- Cooling Towers -->
+            <h3>Cooling Towers</h3>
+            <p>Does your facility have cooling towers?</p>
+            <input type="radio" class="radio" name="towers" id="yes">
+            <label for="yes">Yes</label><br>
+            <input type="radio" class="radio" name="towers" id="no">
+            <label for="no">No</label><br>
+
+            <!-- Chiller Capacity -->
+            <h3>Chiller capacity</h3>
+            <p>Please input each chiller’s rated capacity in kW or RT. The rated capacity is on the chiller nameplate.</p>
+            <label for="chiller-1">Chiller 1</label><br>
+            <input type="number" class="input-field" id="chiller-1" placeholder="Input number in KW" value="0" required><br>
+            <label for="chiller-2">Chiller 2</label><br>
+            <input type="number" class="input-field" id="chiller-2" placeholder="Input number in KW" value="0"><br>
+            <label for="chiller-3">Chiller 3</label><br>
+            <input type="number" class="input-field" id="chiller-3" placeholder="Input number in KW" value="0"><br>
+            <label for="chiller-4">Chiller 4</label><br>
+            <input type="number" class="input-field" id="chiller-4" placeholder="Input number in KW" value="0"><br>
+            <label for="chiller-4">Chiller 5</label><br>
+            <input type="number" class="input-field" id="chiller-5" placeholder="Input number in KW" value="0"><br>
+            <!-- Contact Info -->
+            <h3>Contact Info</h3>
+            <label for="name">Your name</label><br>
+            <input type="text" class="input-field" placeholder="Your name" id="name"><br>
+            <label for="email">What is your email?</label><br>
+            <input type="email" class="input-field" placeholder="Your email" id="email"><br>
+            <label for="country">Which country are you from?</label><br>
+            <input type="text" class="input-field" placeholder="Your country" id="country"><br>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form> 
+    </section>
+
+    <section class="output-section">
+        <div class="output-container">
+            <h3>Here are the key numbers</h3>
+            <p>With your provided information we have estimated your savings. The estimation is based on similar building types. Sounds interesting? Let's schedule a meeting to start realizing your savings.</p>
+            <div class="output-div">
+                <h4>
+                    Potential cost savings
+                </h4>
+                <p>
+                    $ <span id="cost-save">0</span> / year
+                </p>
+            </div>
+            <div class="output-div">
+                <h4>
+                    Potential electrical savings
+                </h4>
+                <p>
+                    <span id="electric-save">0</span> kW / year
+                </p>
+            </div>
+            <div class="output-div">
+                <h4>
+                    Potential reduced CO2 emissions
+                </h4>
+                <p>
+                    <span id="co2-save">0</span> CO2 ton / year
+                </p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
