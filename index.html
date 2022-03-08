@@ -14,10 +14,11 @@
             margin-bottom: 15px;
         }
     </style>
+    <script src="./script.js"></script>
 </head>
-<body>
+<body onload="printOutputs()">
     <section class="calc-section">
-        <form>
+        <form onsubmit="printOutputs()">
             <!-- Facility Type -->
             <h3>Facility type</h3>
             <p>What kind of facility do you operate?</p>
@@ -42,15 +43,15 @@
             <h3>Chiller capacity</h3>
             <p>Please input each chiller’s rated capacity in kW or RT. The rated capacity is on the chiller nameplate.</p>
             <label for="chiller-1">Chiller 1</label><br>
-            <input type="number" class="input-field" id="chiller-1" name="chiller-1" placeholder="Input number in KW" value="" required><br>
+            <input type="number" class="input-field" id="chiller-1" name="chiller1param" placeholder="Input number in KW" value="" required><br>
             <label for="chiller-2">Chiller 2</label><br>
-            <input type="number" class="input-field" id="chiller-2" name="chiller-2"placeholder="Input number in KW" value=""><br>
+            <input type="number" class="input-field" id="chiller-2" name="chiller2param"placeholder="Input number in KW" value=""><br>
             <label for="chiller-3">Chiller 3</label><br>
-            <input type="number" class="input-field" id="chiller-3" name="chiller-3" placeholder="Input number in KW" value=""><br>
+            <input type="number" class="input-field" id="chiller-3" name="chiller3param" placeholder="Input number in KW" value=""><br>
             <label for="chiller-4">Chiller 4</label><br>
-            <input type="number" class="input-field" id="chiller-4" name="chiller-4" placeholder="Input number in KW" value=""><br>
+            <input type="number" class="input-field" id="chiller-4" name="chiller4param" placeholder="Input number in KW" value=""><br>
             <label for="chiller-4">Chiller 5</label><br>
-            <input type="number" class="input-field" id="chiller-5" name="chiller-5" placeholder="Input number in KW" value=""><br>
+            <input type="number" class="input-field" id="chiller-5" name="chiller5param" placeholder="Input number in KW" value=""><br>
             
             <!-- Contact Info -->
             <h3>Contact Info</h3>
@@ -75,7 +76,7 @@
                     Potential cost savings
                 </h4>
                 <p>
-                    $ <span id="cost-save">0</span> / year
+                    $<span id="cost-save">0</span> / year
                 </p>
             </div>
             <div class="output-div">
@@ -83,7 +84,7 @@
                     Potential electrical savings
                 </h4>
                 <p>
-                    <span id="electric-save">0</span> kW / year
+                    <span id="electric-save">0</span>kW / year
                 </p>
             </div>
             <div class="output-div">
@@ -96,6 +97,5 @@
             </div>
         </div>
     </section>
-    <script src="./script.js"></script>
 </body>
 </html>
