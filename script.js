@@ -3,10 +3,10 @@ function printOutputs() {
     // Declare all fixed variables 
     const bbpSavingTarget = 0.75;
     const bbpMinimumSavingCost = 100000;
-    const baselineElectricPrice = 100;
+    const baselineElectricPrice = 0.28;
     const baselineAverageChillerPlantLoad = 0.35;
     const estimatedChillerCapacityLoss = 0.15;
-    const baselineCO2 = 200;
+    const baselineCO2 = 0.50;
     const pumpDesignOverCapacity = 0.20;
 
     // Get values from inputs
@@ -19,21 +19,20 @@ function printOutputs() {
     const chiller5Value = Math.floor(params.get("chiller5param"));
     const allChillersValue = chiller1Value + chiller2Value + chiller3Value + chiller4Value + chiller5Value;
     console.log(allChillersValue)
-
-    // Filter out any value less than 1
-    const chillerList = [chiller1Value, chiller2Value, chiller3Value, chiller4Value, chiller5Value];
-    console.log(chillerList);
-    /* function removeZeros() {
-        return value >= 1
-    } */
             
     // Count Number of Chillers
-    var totalChillers = [chiller1Value, chiller2Value, chiller3Value, chiller4Value, chiller5Value];
+    const chillerList = [chiller1Value, chiller2Value, chiller3Value, chiller4Value, chiller5Value];
+    console.log(chillerList);
+
+    function countChillers(total) {
+        return total > 0 & total != NaN;
+    }
 
     // Chiller 1 Calculations
     const nominalCapacity = allChillersValue;
     const nominalPower = nominalCapacity / 1.4;
-    const numOfChillers = totalChillers;
+    const numOfChillers = chillerList.filter(countChillers).length;
+    console.log(numOfChillers);
     const chillerEfficiency = nominalPower / nominalCapacity;
     const correctedCapacity = nominalCapacity * (1 - estimatedChillerCapacityLoss);
     const correctedChillerEfficiency = nominalPower / chillerEfficiency;
@@ -43,7 +42,6 @@ function printOutputs() {
 
     // Chillers Totals
     const nominalCapacityOfAllChillers = (chiller1Value + chiller2Value + chiller3Value + chiller4Value + chiller5Value);
-
 
     // Condenser pump(s) Calculations
     const condenserNominalTotalPower = (14.0148778886542 + 0.11630564 * nominalPower) * numOfChillers;
@@ -83,8 +81,8 @@ function printOutputs() {
     const electricSavingPotentialUsd = electricSavingPotentialKwh * baselineElectricPrice; 
 
     // Print Outputs
-    document.getElementById("cost-save").innerHTML = electricSavingPotentialUsd;
-    document.getElementById("electric-save").innerHTML = electricSavingPotentialUsd;
-    document.getElementById("co2-save").innerHTML = co2SavingPotential;
+    document.getElementById("cost-save").innerHTML = electricSavingPotentialUsd.toFixed(2);
+    document.getElementById("electric-save").innerHTML = electricSavingPotentialKwh.toFixed(2);
+    document.getElementById("co2-save").innerHTML = co2SavingPotential.toFixed(2);
     console.log('hello world');
 };
